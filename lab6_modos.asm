@@ -88,6 +88,17 @@ inicio:
     ADD  si, 2            ; avanzar índice 2 bytes (word) 
     LOOP .bucle_array 
     ; AX = 10+20+30+40+50 = 150 
+
+	; Suma acumulada en orden INVERSO (array[4] → array[0])
+    XOR ax, ax             ; AX = 0 (acumulador)
+    MOV bx, array          ; BX = dirección base
+    MOV cx, 5              ; CX = número de elementos
+    MOV si, 8              ; SI = (5-1)*2 = 8 → apunta a array[4]
+.bucle_inverso:
+    ADD ax, [bx + si]      ; AX += array[si/2]
+    SUB si, 2              ; retroceder índice 2 bytes (word)
+    LOOP .bucle_inverso
+    ; AX = 50+40+30+20+10 = 150
  
     ; Acceso a campo de struct con desplazamiento fijo 
     MOV  bx, nota1        ; BX = base del "struct" (nota1, nota2, promedio) 
